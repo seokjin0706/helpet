@@ -1,4 +1,4 @@
-package com.helpet
+package com.helpet.login
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
@@ -10,7 +10,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import com.helpet.login.find_idpw
+import com.helpet.R
 
 class Login : AppCompatActivity() {
     val TAG: String = "MainActivity"
@@ -56,7 +56,7 @@ class Login : AppCompatActivity() {
 
         //아이디 비번 찾기 버튼
         btn_find_id_pw.setOnClickListener {
-            val intent = Intent(this, find_idpw::class.java)
+            val intent = Intent(this, Find_idpw::class.java)
             startActivity(intent)
         }
 

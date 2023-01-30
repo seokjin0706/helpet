@@ -1,4 +1,4 @@
-package com.helpet
+package com.helpet.login
 
 import android.content.ContentValues
 import android.content.Context
@@ -11,12 +11,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.helpet.R
+import java.io.BufferedReader
+import java.io.DataOutputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
 
 
 class Register : AppCompatActivity() {
@@ -36,6 +37,8 @@ class Register : AppCompatActivity() {
         val edit_pwcheck : EditText = findViewById(R.id.edit_pwcheck)
         val edit_nick : EditText = findViewById(R.id.edit_nick)
         val btn_success : Button = findViewById(R.id.btn_success)
+
+
 
 
         btn_success.setOnClickListener {
@@ -72,6 +75,24 @@ class Register : AppCompatActivity() {
                     dialog("blank")
                 } else if (!isPWSame) { // 입력한 비밀번호가 다를 경우
                     dialog("not same")
+                }
+            }
+
+            val url = URL("http://localhost:3000/auth/register_process")
+            val postData = "name=test1 & phonenum=test2 & id=test3 & pw=test4 & nick=test5"
+
+            val conn = url.openConnection() as HttpURLConnection
+            conn.requestMethod = "POST"
+            conn.doOutput = true
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+            conn.setRequestProperty("Content-Length", postData.length.toString())
+            conn.useCaches = false
+
+            DataOutputStream(conn.outputStream).use { it.writeBytes(postData) }
+            BufferedReader(InputStreamReader(conn.inputStream)).use { br ->
+                var line: String?
+                while (br.readLine().also { line = it } != null) {
+                    println(line)
                 }
             }
 

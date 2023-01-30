@@ -3,11 +3,9 @@ package com.helpet.login
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.helpet.Frag1_find_id
-import com.helpet.Frag1_find_pw
 import com.helpet.R
 
-class find_idpw : AppCompatActivity(){
+class Find_idpw : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.find)
@@ -37,7 +35,7 @@ class find_idpw : AppCompatActivity(){
                 ft.replace(R.id.find_mainframe, Frag1_find_id()).commit()
             }
             1-> {
-                ft.replace(R.id.find_mainframe, Frag1_find_pw()).commit()
+                ft.replace(R.id.find_mainframe, Frag2_find_pw()).commit()
             }
         }
 

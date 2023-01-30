@@ -1,10 +1,11 @@
-package com.helpet
+package com.helpet.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.helpet.R
 
 class Frag1_find_id : Fragment () {
 

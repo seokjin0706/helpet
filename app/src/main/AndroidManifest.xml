@@ -12,7 +12,7 @@
         android:theme="@style/Theme.MyApplication">
 
         <activity
-            android:name="com.helpet.Mainacitivity"
+            android:name="com.helpet.login.Mainacitivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.helpet.Login"
+            android:name="com.helpet.login.Login"
             android:exported="true"/>
         <activity
-            android:name="com.helpet.Register"
+            android:name="com.helpet.login.Register"
             android:exported="true"/>
         <activity
             android:name="com.helpet.login.find_idpw"
