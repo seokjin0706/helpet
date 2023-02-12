@@ -10,17 +10,17 @@ router.get('/login', function (request, response) {
 
 // 로그인 프로세스
 router.post('/login_process', (req, res) => {
-    var username = req.body.username;
+    var userId = req.body.userId;
     var password = req.body.password;
     var errorcode = true;
 
-    if (username && password) {
+    if (userId && password) {
         db.connect();
-        db.query('SELECT * FROM user WHERE username = ?', [username], function (error, results, fields) {
+        db.query('SELECT * FROM user WHERE userId = ?', [userId], function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {       // db에서의 반환값이 있으면 로그인 성공
                 req.session.is_logined = true;
-                req.session.nickname = username;
+                req.session.nickname = userId;
                 // req.session.save(function () {
                 //     res.redirect(`/`);
                 // });
