@@ -15,32 +15,42 @@ router.post('/login_process', (req, res) => {
     var errorcode = true;
 
     if (userId && password) {
-        db.connect();
+        // db.connect();
         db.query('SELECT * FROM user WHERE userId = ?', [userId], function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {       // db에서의 반환값이 있으면 로그인 성공
-                req.session.is_logined = true;
-                req.session.nickname = userId;
-                // req.session.save(function () {
-                //     res.redirect(`/`);
-                // });
-                errorcode = false;
+                if (password == results[0].password) { // 회원정보의 password와 입력한 password가 같은 경우
+                    req.session.is_logined = true;
+                    req.session.nickname = userId;
+                    // req.session.save(function () {
+                    //     res.redirect(`/`);
+                    // });
+                    errorcode = false;
+                    res.json({
+                        "error": errorcode,
+                        "userId": userId,
+                        "result": "Login Success!"
+                    })
+                } else { // 입력한 비밀번호가 다를경우
+                    res.json({
+                        "error": errorcode,
+                        "userId": userId,
+                        "result": "비밀번호가 틀렸습니다."
+                    })
+                }
+            } else { //입력한 아이디에 대한 정보가 없을때
                 res.json({
                     "error": errorcode,
-                    "result": "Login Success!"
-                })
-            } else {
-                res.json({
-                    "error": errorcode,
-                    "message": "Login Fail!"
+                    "userId": userId,
+                    "result": "존재하지 않는 회원입니다."
                 })
             }
         });
-        db.end();
+        // db.end();
     } else {
         res.json({
             "error": errorcode,
-            "message": "아이디 및 비밀번호를 입력하세요!"
+            "message": "아이디 및 비밀번호를 입력하세요."
         })
     }
 });
@@ -118,7 +128,7 @@ router.post('/register_process', (req, res) => {
     if (username && phone && userId && password && password2 && nickname) {
         if (password == password2) {     // 비밀번호가 올바르게 입력된 경우 
             db.query('INSERT INTO user (userId, username, phone, password, nickname) VALUES(?,?,?,?,?)', [userId, username, phone, password, nickname], function (error, data) {
-                if (error) throw error2;
+                if (error) throw error;
                 errorcode = false
                 res.json({
                     "error": errorcode,
