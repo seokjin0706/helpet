@@ -24,4 +24,19 @@ router.post('/add', (req, res) => {
     })
 })
 
+// 달력일정 삭제
+router.post('/delete', (req, res) => {
+    var cal_idx = req.body.cal_idx;
+
+    db.query('DELETE FROM calendar where cal_idx = ?', [cal_idx], function (error, data) {
+        if (error) throw error;
+        errorcode = false
+        res.json({
+            "error": errorcode,
+            "cal_idx": cal_idx,
+            "message": "일정이 삭제되었습니다."
+        })
+    });
+})
+
 module.exports = router;
