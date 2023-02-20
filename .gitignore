@@ -13,6 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
-backend/db.js
-backend/node_modules/
-backend/router/main/sessions/*
+backend/express/db.js
+backend/express/node_modules/
+backend/express/router/main/sessions/*

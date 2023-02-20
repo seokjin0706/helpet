@@ -9,13 +9,13 @@ router.get('/login', function (request, response) {
 });
 
 // 로그인 프로세스
-router.post('/login_process', (req, res) => {
+router.post('/login', (req, res) => {
     var userId = req.body.userId;
     var password = req.body.password;
     var errorcode = true;
 
     if (userId && password) {
-        // db.connect();
+        db.connect();
         db.query('SELECT * FROM user WHERE userId = ?', [userId], function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {       // db에서의 반환값이 있으면 로그인 성공
@@ -46,7 +46,7 @@ router.post('/login_process', (req, res) => {
                 })
             }
         });
-        // db.end();
+        db.end();
     } else {
         res.json({
             "error": errorcode,
@@ -69,10 +69,11 @@ router.get('/register', function (req, res) {
 });
 
 // 아이디 중복 확인 프로세스
-router.post('/register_id_check', (req, res) => {
+router.post('/id-check', (req, res) => {
     var userId = req.body.userId;
     var errorcode = true;
 
+    db.connect();
     db.query('select * from user where userId = ?', [userId], function (error, results, fields) {
         if (error) throw error;
 
@@ -89,13 +90,15 @@ router.post('/register_id_check', (req, res) => {
             })
         }
     });
+    db.end();
 })
 
 //닉네임 중복 확인 프로세스
-router.post('/register_nickname_check', (req, res) => {
+router.post('/nickname-check', (req, res) => {
     var nickname = req.body.nickname;
     var errorcode = true;
 
+    db.connect();
     db.query('select * from user where nickname = ?', [nickname], function (error, results, fields) {
         if (error) throw error;
 
@@ -112,10 +115,11 @@ router.post('/register_nickname_check', (req, res) => {
             })
         }
     });
+    db.end();
 })
 
 // 회원가입 프로세스
-router.post('/register_process', (req, res) => {
+router.post('/register', (req, res) => {
     var userId = req.body.userId;
     var username = req.body.username;
     var phone = req.body.phone;
@@ -126,7 +130,8 @@ router.post('/register_process', (req, res) => {
     var errorcode = true;
 
     if (username && phone && userId && password && password2 && nickname) {
-        if (password == password2) {     // 비밀번호가 올바르게 입력된 경우 
+        if (password == password2) { // 비밀번호가 올바르게 입력된 경우 
+            db.connect();
             db.query('INSERT INTO user (userId, username, phone, password, nickname) VALUES(?,?,?,?,?)', [userId, username, phone, password, nickname], function (error, data) {
                 if (error) throw error;
                 errorcode = false
@@ -136,6 +141,7 @@ router.post('/register_process', (req, res) => {
                     "password": password
                 })
             })
+            db.end();
         } else {                     // 비밀번호가 올바르게 입력되지 않은 경우
             res.json({
                 "error": errorcode,
